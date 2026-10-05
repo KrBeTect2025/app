@@ -12,8 +12,8 @@ class ShipmentStatus(str, Enum):
     delivered = "delivered"
 
 
-class Shipment(SQLModel, table = True):
-    __tablename__ = "shipment" #type: ignore
+class Shipment(SQLModel, table=True):
+    __tablename__ = "shipment"  # type: ignore
 
     id: int = Field(default=None, primary_key=True)
     content: str
@@ -22,8 +22,9 @@ class Shipment(SQLModel, table = True):
     status: ShipmentStatus
     estimated_delivery: datetime
 
-class Seller(SQLModel , table = True):
-    id : int = Field(default=None , primary_key=True)
-    name : str
-    email : EmailStr
-    passhas :str
+
+class Seller(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+    email: EmailStr
+    pass_hash: str

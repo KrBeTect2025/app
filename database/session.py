@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlmodel import SQLModel
 
-from app.config import settings
+from config import settings
 
 # Create a database engine to connect with database
 engine = create_async_engine(
@@ -14,7 +14,7 @@ engine = create_async_engine(
 
 async def create_db_tables():
     async with engine.begin() as connection:
-        from app.database.models import Shipment  # noqa: F401
+        from database.models import Shipment  # noqa: F401
 
         await connection.run_sync(SQLModel.metadata.create_all)
 
