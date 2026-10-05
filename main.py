@@ -21,6 +21,7 @@ app = FastAPI(
 
 app.include_router(router)
 
+
 ### Scalar API Documentation
 @app.get("/scalar", include_in_schema=False)
 def get_scalar_docs():
