@@ -1,0 +1,13 @@
+# Environment variables
+.env
+fastapi/app/.env
+
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+.mypy_cache/
+.env
+.vscode

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field
 
-from app.database.models import ShipmentStatus
+from database.models import ShipmentStatus
 
 
 class BaseShipment(BaseModel):
