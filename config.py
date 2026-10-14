@@ -21,5 +21,18 @@ class DatabaseSettings(BaseSettings):
         return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
 
-# Values are loaded from .env at runtime, which type checkers can't see
-settings = DatabaseSettings()  # type: ignore[call-arg]
+class SecuritySettings(BaseSettings):
+    JWT_SECRET: str
+    JWT_ALGORITHM: str
+
+    model_config = SettingsConfigDict(
+        env_file=Path(__file__).parent / ".env",
+        env_ignore_empty=True,
+        extra="ignore",
+    )
+
+    # Values are loaded from .env at runtime, which type checkers can't see
+
+
+db_settings = DatabaseSettings()  # type: ignore[call-arg]
+security_settings = SecuritySettings()  # type: ignore[call-arg]  # pyright: ignore[reportCallIssue]
