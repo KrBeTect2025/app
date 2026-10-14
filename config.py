@@ -26,7 +26,7 @@ class SecuritySettings(BaseSettings):
     JWT_ALGORITHM: str
 
     model_config = SettingsConfigDict(
-        env_file=Path(__file__).parent / ".env",
+        env_file=Path("d:\\fastapi\\app\\.env"),
         env_ignore_empty=True,
         extra="ignore",
     )
@@ -35,4 +35,4 @@ class SecuritySettings(BaseSettings):
 
 
 db_settings = DatabaseSettings()  # type: ignore[call-arg]
-security_settings = SecuritySettings()  # type: ignore[call-arg]  # pyright: ignore[reportCallIssue]
+security_settings = SecuritySettings()
