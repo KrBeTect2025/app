@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta, timezone
 
 import jwt
 from fastapi import HTTPException, status
@@ -36,7 +36,7 @@ class SellerService:
         result = await self.session.execute(select(Seller).where(Seller.email == email))
         seller = result.scalar()
 
-        if seller is None or password_context.verify(password, SellerCreate.password):
+        if seller is None or not password_context.verify(password, seller.pass_hash):
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="email or password are wrongd",
@@ -45,8 +45,7 @@ class SellerService:
         token = jwt.encode(
             payload={
                 "user": {"name": seller.name, "email": seller.email},
-                "exp": datetime.date(year=2028, month=2, day=21)
-                + datetime.timedelta(days=1),
+                "exp": datetime.now(timezone.utc) + timedelta(days=1),
             },
             algorithm=security_settings.JWT_ALGORITHM,
             key=security_settings.JWT_SECRET,
