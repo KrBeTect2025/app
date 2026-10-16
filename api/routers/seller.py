@@ -5,6 +5,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from api.dependencies import SellerServiceDep
 from api.schemas.seller import SellerCreate, SellerRead
+from core.security import oauth2_scheme
 
 router = APIRouter(prefix="/seller", tags=["Seller"])
 
@@ -24,4 +25,11 @@ async def login_seller(
     return {
         "access_token": token,
         "type": "jwt",
+    }
+
+
+@router.get("/dashboard")
+async def get_dashboard(token: Annotated[str, Depends(oauth2_scheme)]):
+    return {
+        "token": token,
     }

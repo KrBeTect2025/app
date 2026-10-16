@@ -45,7 +45,7 @@ class SellerService:
         token = jwt.encode(
             payload={
                 "user": {"name": seller.name, "email": seller.email},
-                "exp": datetime.now(timezone.utc) + timedelta(days=1),
+                "exp": datetime.now(timezone.utc) + timedelta(days=1),  # noqa: UP017
             },
             algorithm=security_settings.JWT_ALGORITHM,
             key=security_settings.JWT_SECRET,
