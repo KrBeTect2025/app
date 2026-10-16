@@ -34,5 +34,5 @@ class SecuritySettings(BaseSettings):
     # Values are loaded from .env at runtime, which type checkers can't see
 
 
-db_settings = DatabaseSettings()  # type: ignore[call-arg]
-security_settings = SecuritySettings()
+security_settings = SecuritySettings()  # type: ignore[call-arg]
+db_settings = DatabaseSettings()  # type: ignore
