@@ -21,7 +21,7 @@ class ShipmentService:
         new_shipment = Shipment(
             **shipment_create.model_dump(),
             status=ShipmentStatus.placed,
-            estimated_delivery=datetime.now(timezone.utc) + timedelta(days=3),
+            estimated_delivery=datetime.now(timezone.utc).replace(tzinfo=None) + timedelta(days=3),
         )
         self.session.add(new_shipment)
         await self.session.commit()
