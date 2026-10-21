@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 
+from fastapi import HTTPException, status
 import jwt
 
 from config import security_settings
@@ -24,6 +25,8 @@ def decode_access_token(token: str) -> dict | None:
             algorithms=[security_settings.JWT_ALGORITHM],
         )
 
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="expired")
     except jwt.PyJWTError as e:
         print(f"{e} : token isnt valid")
         return None
