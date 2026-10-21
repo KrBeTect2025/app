@@ -26,7 +26,7 @@ class SecuritySettings(BaseSettings):
     JWT_ALGORITHM: str
 
     model_config = SettingsConfigDict(
-        env_file=Path("d:\\fastapi\\app\\.env"),
+        env_file=Path(__file__).parent / ".env",
         env_ignore_empty=True,
         extra="ignore",
     )
