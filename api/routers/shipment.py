@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 
-from ..dependencies import ServiceDep
+from ..dependencies import SellerDep, ServiceDep
 from ..schemas.shipment import ShipmentCreate, ShipmentRead, ShipmentUpdate
 
 # api router to group endpoints
@@ -25,8 +25,7 @@ async def get_shipment(id: int, service: ServiceDep):
 ### Create a new shipment with content and weight
 @router.post("/", response_model=ShipmentRead)
 async def submit_shipment(
-    shipment: ShipmentCreate,
-    service: ServiceDep,
+    shipment: ShipmentCreate, service: ServiceDep, seller: SellerDep
 ):
     return await service.add(shipment)
 

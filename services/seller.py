@@ -24,7 +24,7 @@ class SellerService:
         seller = Seller(
             **credentials.model_dump(exclude={"password"}),  # type: ignore[arg-type]
             # hashed password
-            pass_hash=password_context.hash(credentials.password)
+            pass_hash=password_context.hash(credentials.password),
         )
         self.session.add(seller)
         await self.session.commit()
@@ -43,5 +43,5 @@ class SellerService:
                 detail="email or password are wrongd",
             )
 
-        token = generate_access_token(data={"name": seller.name, "user": seller.email})
+        token = generate_access_token(data={"user": {"name": seller.name, "id": seller.id}})
         return token
