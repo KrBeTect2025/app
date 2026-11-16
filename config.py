@@ -10,6 +10,9 @@ class DatabaseSettings(BaseSettings):
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
 
+    REDIS_HOST: str
+    REDIS_PORT: str
+
     model_config = SettingsConfigDict(
         env_file=Path(__file__).parent / ".env",
         env_ignore_empty=True,

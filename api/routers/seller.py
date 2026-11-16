@@ -1,12 +1,14 @@
+from datetime import datetime, timezone
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
-from api.dependencies import SellerServiceDep, SessionDep
+from api.dependencies import SellerServiceDep, SessionDep, get_access_token
 from api.schemas.seller import SellerCreate, SellerRead
 from core.security import oauth2_scheme
 from database.models import Seller
+from database.redis import add_jti_to_blacklist
 from services.util import decode_access_token
 
 router = APIRouter(prefix="/seller", tags=["Seller"])
@@ -30,16 +32,7 @@ async def login_seller(
     }
 
 
-@router.get("/dashboard")
-async def get_dashboard(
-    token: Annotated[str, Depends(oauth2_scheme)], session: SessionDep
-) -> Seller:
-    data = decode_access_token(token)
-
-    if data is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="INvalid access token"
-        )
-
-    seller = await session.get(Seller, data["user"]["id"])
-    return seller
+@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
+async def logout_seller(token_data: Annotated[dict, Depends(get_access_token)]):
+    seconds_left = int(token_data["exp"] - datetime.now(timezone.utc).timestamp())
+    await add_jti_to_blacklist(token_data["jti"], max(seconds_left, 1))

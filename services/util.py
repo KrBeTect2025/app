@@ -1,11 +1,10 @@
 from datetime import datetime, timedelta, timezone  # noqa: EXE002
+from uuid import uuid4
 
 import jwt
 from fastapi import HTTPException, status
 
 from config import security_settings
-
-from uuid import uuid4
 
 
 def generate_access_token(data: dict, exp: timedelta = timedelta(days=1)) -> str:
@@ -14,7 +13,7 @@ def generate_access_token(data: dict, exp: timedelta = timedelta(days=1)) -> str
             **data,
             "jti": str(
                 uuid4()
-            ),  # wrapped inside the the type cast of th str beacsue the uui4 return UUID object and we need json compatablity
+            ),  #s wrapped inside the the type cast of th str beacsue the uui4 return UUID object and we need json compatablity
             "exp": datetime.now(timezone.utc) + exp,
         },
         algorithm=security_settings.JWT_ALGORITHM,
