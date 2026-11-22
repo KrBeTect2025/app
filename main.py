@@ -6,17 +6,23 @@ from scalar_fastapi import get_scalar_api_reference
 from api.router import master_router
 from database.session import create_db_tables
 
+from api.middleware import rate_limiter
+
+from database.redis import close_redis
+
 
 @asynccontextmanager
 async def lifespan_handler(app: FastAPI):
     await create_db_tables()
     yield
+    await close_redis()
 
 
 app = FastAPI(
     # Server start/stop listener
     lifespan=lifespan_handler,
 )
+app.middleware("http")(rate_limiter)
 app.include_router(master_router)
 
 
