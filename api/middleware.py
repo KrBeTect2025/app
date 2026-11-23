@@ -2,9 +2,8 @@ import logging
 
 from fastapi import Request
 from fastapi.responses import JSONResponse
+from database.redis import hit_rate_limit
 from redis.exceptions import RedisError
-
-from ..database.redis import hit_rate_limit
 
 logger = logging.getLogger(__name__)
 
