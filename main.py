@@ -3,12 +3,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from scalar_fastapi import get_scalar_api_reference
 
-from api.router import master_router
-from database.session import create_db_tables
-
 from api.middleware import rate_limiter
-
+from api.router import master_router
 from database.redis import close_redis
+from database.session import create_db_tables
 
 
 @asynccontextmanager
